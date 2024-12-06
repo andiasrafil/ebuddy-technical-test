@@ -51,8 +51,7 @@ extension DashboardView {
                 let index = self.user.firstIndex(where: { $0.id == user.id })
                 if let index = index {
                     DispatchQueue.main.async {
-                        self.user.remove(at: index)
-                        self.user.insert(user, at: index)
+                        self.user[index].image = user.image
                     }
                 }
                 

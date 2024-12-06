@@ -96,7 +96,7 @@ struct ImageProfileView: View {
                                      photoLibrary: .shared()) {
                             Image(systemName: "pencil.circle.fill")
                                 .symbolRenderingMode(.multicolor)
-                                .font(.system(size: 30))
+                                .font(.system(size: 12))
                                 .foregroundColor(.accentColor)
                         }
                         .buttonStyle(.borderless)
@@ -136,7 +136,7 @@ struct CircularProfileImage: View {
         ProfileImage(viewModel: viewModel)
             .scaledToFill()
             .clipShape(Circle())
-            .frame(width: 100, height: 100)
+            .frame(width: 50, height: 50)
             .background {
                 Circle().fill(
                     LinearGradient(
