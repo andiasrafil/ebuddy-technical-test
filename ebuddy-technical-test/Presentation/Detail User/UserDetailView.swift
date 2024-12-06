@@ -8,8 +8,10 @@ import SwiftUI
 struct UserDetailView: View {
     @Binding var user: UserJSON
     @ObservedObject var viewModel: DashboardView.DashboardViewModel
+    @EnvironmentObject var appState: AppState
     var body: some View {
         VStack {
+            Text("current selected User: \(appState.currentSelectedUser?.email ?? "")")
             if let imageUrl = user.image, !imageUrl.isEmpty {
                 AsyncImage(url: URL(string: imageUrl)!) {
                     $0.image?.resizable()
@@ -29,6 +31,9 @@ struct UserDetailView: View {
             TextField(text: $user.phone.toUnwrapped(defaultValue: ""), label: {
                 Text(user.email ?? "")
             })
+        }
+        .onAppear {
+            self.appState.currentSelectedUser = user
         }
     }
 }

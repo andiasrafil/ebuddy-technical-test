@@ -9,10 +9,12 @@ import FirebaseStorage
 import _PhotosUI_SwiftUI
 
 struct DashboardView: View {
-    @StateObject var viewModel: DashboardViewModel = .init()
+    @EnvironmentObject var viewModel: DashboardViewModel
+    @EnvironmentObject var appState: AppState
     var body: some View {
         NavigationView {
             VStack {
+                Text("current selected User: \(appState.currentSelectedUser?.email ?? "")")
                 List(self.$viewModel.user, rowContent: { $data in
                     NavigationLink {
                         UserDetailView(user: $data, viewModel: viewModel)

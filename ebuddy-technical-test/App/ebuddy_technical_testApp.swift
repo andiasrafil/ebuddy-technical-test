@@ -18,9 +18,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct ebuddy_technical_testApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject var dashboardVM: DashboardView.DashboardViewModel = .init()
+    @StateObject var appState: AppState = .init()
     var body: some Scene {
         WindowGroup {
             DashboardView()
+                .environmentObject(self.dashboardVM)
+                .environmentObject(self.appState)
         }
     }
 }
