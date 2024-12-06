@@ -10,7 +10,7 @@ import FirebaseFirestore
 struct UserJSON: Codable, Identifiable {
     
     @DocumentID var id: String?
-    var email, phone: String?
+    var email, image, phone: String?
     var gender: GenderEnum?
     
     enum CodingKeys: String, CodingKey {
@@ -18,10 +18,37 @@ struct UserJSON: Codable, Identifiable {
         case phone = "tel"
         case gender = "ge"
         case email
+        case image = "img"
     }
 }
 
 enum GenderEnum: Int, Codable {
     case male = 0
     case female = 1
+}
+
+extension UserJSON {
+    func copyWith(
+        email: String? = nil,
+        phone: String? = nil,
+        gender: Int? = nil,
+        image: String? = nil
+    ) -> UserJSON {
+        return UserJSON(
+            id: self.id,
+            email: email ?? self.email,
+            image: image ?? self.image,
+            phone: phone ?? self.phone,
+            gender: GenderEnum(rawValue: gender ?? 0) ?? self.gender
+        )
+    }
+    
+    func toUpdateData() -> [AnyHashable: Any] {
+        return [
+            FirebaseConstant.Field.email: self.email ?? "",
+            FirebaseConstant.Field.gender: self.gender?.rawValue ?? 0,
+            FirebaseConstant.Field.phone: self.phone ?? "",
+            FirebaseConstant.Field.image: self.image ?? "",
+        ]
+    }
 }
