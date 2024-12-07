@@ -19,5 +19,6 @@ struct FirebaseConstant {
         static let image = "img"
         static let rating = "r"
         static let price = "p"
+        static let recentActive = "ra"
     }
 }

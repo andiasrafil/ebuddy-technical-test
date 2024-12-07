@@ -12,4 +12,5 @@ protocol UserRepository {
     func anonymousSignIn() async -> Bool
     func uploadImage(image: UIImage, uid: String) async -> String?
     func updateUserData(forId uid: String, value: [AnyHashable: Any]) async
+    func sortUsers() async -> [UserJSON]
 }

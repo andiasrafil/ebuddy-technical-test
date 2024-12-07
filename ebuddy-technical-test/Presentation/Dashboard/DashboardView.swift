@@ -15,9 +15,16 @@ struct DashboardView: View {
         NavigationView {
             VStack {
                 Button(action: {
-                    appState.changeColorScheme()
+                    self.appState.changeColorScheme()
                 }, label: {
                     Text("Change Theme")
+                })
+                Button(action: {
+                    Task {
+                        await self.viewModel.sortUser()
+                    }
+                }, label: {
+                    Text("sort")
                 })
                 ScrollView(showsIndicators: false) {
                     ForEach(self.$viewModel.user) { $data in

@@ -24,6 +24,19 @@ class UserRepositoryImpl: ObservableObject, UserRepository {
         }
     }
     
+    func sortUsers() async -> [UserJSON] {
+        do {
+            let result = try await firestore.collection(path).whereField(FirebaseConstant.Field.gender, isEqualTo: GenderEnum.female.rawValue)
+                .order(by: FirebaseConstant.Field.recentActive, descending: true)
+                .order(by: FirebaseConstant.Field.rating, descending: true)
+                .order(by: FirebaseConstant.Field.price, descending: false)
+                .getDocuments()
+            return try result.documents.map({ try $0.data(as: UserJSON.self)})
+        } catch {
+            return []
+        }
+    }
+    
     func anonymousSignIn() async -> Bool {
         do {
             if Auth.auth().currentUser == nil {

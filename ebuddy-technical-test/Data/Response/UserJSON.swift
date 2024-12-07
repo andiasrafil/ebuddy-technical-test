@@ -12,6 +12,8 @@ struct UserJSON: Codable, Identifiable {
     @DocumentID var id: String?
     var email, image, phone: String?
     var gender: GenderEnum?
+    var price: Int?
+    var rating: Double?
     
     enum CodingKeys: String, CodingKey {
         case id = "uid"
@@ -19,6 +21,8 @@ struct UserJSON: Codable, Identifiable {
         case gender = "ge"
         case email
         case image = "img"
+        case price = "p"
+        case rating = "r"
     }
 }
 

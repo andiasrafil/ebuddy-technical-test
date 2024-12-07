@@ -57,6 +57,12 @@ extension DashboardView {
                 
             }
         }
+        @MainActor
+        func sortUser() async {
+            Task {
+                self.user = await self.repository.sortUsers()
+            }
+        }
     }
 }
 

@@ -171,7 +171,7 @@ struct UserCardView: View {
             Image("star")
                 .resizable()
                 .frame(width: 32, height: 32)
-            Text("4.9")
+            Text("\(user.rating ?? 0.0)")
                 .font(.system(size: 24, weight: .bold))
                 .foregroundStyle(.text)
             Spacer()
@@ -184,7 +184,7 @@ struct UserCardView: View {
                 .resizable()
                 .frame(width: 32, height: 32)
             Group {
-                Text("110")
+                Text("\(user.price ?? 0)")
                     .font(.system(size: 24, weight: .bold))
                 + Text(".00/1Hr")
                     .font(.system(size: 16, weight: .regular))
