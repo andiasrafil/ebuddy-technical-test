@@ -14,18 +14,20 @@ struct DashboardView: View {
     var body: some View {
         NavigationView {
             VStack {
-                Text("current selected User: \(appState.currentSelectedUser?.email ?? "")")
-                List(self.$viewModel.user, rowContent: { $data in
-                    NavigationLink {
-                        UserDetailView(user: $data, viewModel: viewModel)
-                    } label: {
-                        UserCardView(user: data, onSuccessSelectImage: { image in
-                            let result = await self.viewModel.uploadPhoto(forUser: data.id ?? "", image: image)
-                            return result
-                        })
+                ScrollView(showsIndicators: false) {
+                    ForEach(self.$viewModel.user) { $data in
+                        NavigationLink {
+                            UserDetailView(user: $data, viewModel: viewModel)
+                        } label: {
+                            UserCardView(user: data, onSuccessSelectImage: { image in
+                                let result = await self.viewModel.uploadPhoto(forUser: data.id ?? "", image: image)
+                                return result
+                            })
+                        }
                     }
-                })
+                }
             }
+            .frame(maxHeight: .infinity)
         }
     }
 }
