@@ -23,6 +23,7 @@ struct ebuddy_technical_testApp: App {
     var body: some Scene {
         WindowGroup {
             DashboardView()
+                .preferredColorScheme(appState.colorScheme)
                 .environmentObject(self.dashboardVM)
                 .environmentObject(self.appState)
         }

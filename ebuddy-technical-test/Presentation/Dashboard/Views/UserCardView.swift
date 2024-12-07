@@ -23,11 +23,11 @@ struct UserCardView: View {
             bottomSection
         }
         
-        .background(.white)
+        .background(Color.background)
         .cornerRadius(16)
         .overlay(
             RoundedRectangle(cornerRadius: 16)
-                .stroke(Color.black, lineWidth: 2)
+                .stroke(Color.text, lineWidth: 2)
         )
         .padding(16)
     }
@@ -103,7 +103,7 @@ struct UserCardView: View {
                         Color.black.opacity(0.6)
                             .clipShape(Circle())
                         Text("+3")
-                            .foregroundColor(Color.white)
+                            .foregroundColor(.white)
                             .font(.system(size: 24))
                     }
                     .offset(x: -10)
@@ -115,7 +115,7 @@ struct UserCardView: View {
     var name: some View {
         Text("Zynx")
             .font(.system(size: 40, weight: .bold))
-            .foregroundStyle(.black)
+            .foregroundStyle(.text)
     }
     
     var status: some View {
@@ -173,7 +173,7 @@ struct UserCardView: View {
                 .frame(width: 32, height: 32)
             Text("4.9")
                 .font(.system(size: 24, weight: .bold))
-                .foregroundStyle(.black)
+                .foregroundStyle(.text)
             Spacer()
         }
     }
@@ -189,7 +189,7 @@ struct UserCardView: View {
                 + Text(".00/1Hr")
                     .font(.system(size: 16, weight: .regular))
             }
-            .foregroundStyle(.black)
+            .foregroundStyle(.text)
         }
         .padding(.top, 8)
     }

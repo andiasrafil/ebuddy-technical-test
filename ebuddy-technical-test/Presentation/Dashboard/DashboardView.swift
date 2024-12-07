@@ -14,6 +14,11 @@ struct DashboardView: View {
     var body: some View {
         NavigationView {
             VStack {
+                Button(action: {
+                    appState.changeColorScheme()
+                }, label: {
+                    Text("Change Theme")
+                })
                 ScrollView(showsIndicators: false) {
                     ForEach(self.$viewModel.user) { $data in
                         NavigationLink {
