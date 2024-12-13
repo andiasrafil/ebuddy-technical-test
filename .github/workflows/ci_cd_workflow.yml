@@ -32,13 +32,18 @@ jobs:
       env:
         CI: true
 
+    - name: Debug Build Directory
+      run: |
+        echo "Checking build directory..."
+        find build -type f
+
     - name: Upload Coverage Report
       uses: actions/upload-artifact@v3
       with:
         name: coverage-report
         path: |
-          build/reports/coverage
-          build/Debug-iphonesimulator/**/*.profdata
+          **/*.profdata
+          build/**/*.profdata
 
   code-coverage:
     name: Generate Code Coverage
@@ -54,7 +59,7 @@ jobs:
 
     - name: Generate Coverage Summary
       run: |
-        xcrun xccov view ./coverage/Coverage.profdata --report --json > coverage-summary.json
+        xcrun xccov view ./coverage/*.profdata --report --json > coverage-summary.json
 
     - name: Upload Coverage Summary
       uses: actions/upload-artifact@v3
