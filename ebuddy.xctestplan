@@ -22,13 +22,6 @@
         "identifier" : "A93403032D0071D0005C1CA3",
         "name" : "ebuddy-technical-testTests"
       }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:ebuddy-technical-test.xcodeproj",
-        "identifier" : "A934030D2D0071D0005C1CA3",
-        "name" : "ebuddy-technical-testUITests"
-      }
     }
   ],
   "version" : 1
