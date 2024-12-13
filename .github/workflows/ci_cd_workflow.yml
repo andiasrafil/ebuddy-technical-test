@@ -41,10 +41,13 @@ jobs:
     - name: Generate lcov Report
       run: |
         slather coverage --input-format profdata --output-format lcov \
-          --scheme YourScheme --workspace YourWorkspace.xcworkspace --build-directory build build/YourProject.xcodeproj
+          --scheme ebuddy --workspace ebuddy.xcworkspace --build-directory build build/ebuddy.xcodeproj
         mv build/lcov.info lcov.info
 
     - name: Debug lcov Report
       run: |
         echo "Generated lcov.info:"
         cat lcov.info
+
+    - name: Report Coverage
+      uses: k1LoW/octocov-action@v1

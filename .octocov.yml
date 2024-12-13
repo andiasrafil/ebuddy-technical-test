@@ -1,0 +1,28 @@
+coverage:
+  acceptable: current >= 0%
+  paths:
+    - lcov.info 
+  badge:
+    path: assets/server-coverage.svg
+codeToTestRatio:
+  code:
+    - 'ebuddy-techincal-test/**/*.swift'
+    - '!ebuddy-techincal-testTests/*.swift'
+  test:
+    - 'ebuddy-techincal-testTests/*.swift'
+  badge:
+    path: assets/server-ratio.svg
+diff:
+  datastores:
+    - artifact://${GITHUB_REPOSITORY}
+push:
+comment:
+  if: is_pull_request
+  deletePrevious: true
+summary:
+  if: is_default_branch
+report:
+  if: is_default_branch
+  path: report.json
+  datastores:
+    - artifact://${GITHUB_REPOSITORY}
