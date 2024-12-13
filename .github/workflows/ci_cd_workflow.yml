@@ -26,14 +26,8 @@ jobs:
     - name: Install Dependencies
       run: |
         brew install lcov
+        brew install k1LoW/tap/octocov
         gem install slather # To generate lcov report
-
-    - name: Download Octocov Binary
-      run: |
-        curl -L https://github.com/k1LoW/octocov/releases/latest/download/octocov_darwin_amd64.tar.gz -o octocov.tar.gz
-        tar -xzvf octocov.tar.gz
-        chmod +x octocov
-        sudo mv octocov /usr/local/bin/
 
     - name: Build and Run Tests
       run: |
