@@ -5,7 +5,8 @@ on:
     branches:
       - main
 
-  build-and-test:
+jobs:
+    build-and-test:
     name: Build and Test
     runs-on: macos-latest
 
@@ -25,8 +26,8 @@ on:
     - name: Build and Run Tests
       run: |
         xcodebuild test \
-          -scheme "ebuddy" \
-          -destination "platform=iOS Simulator,name=iPhone 16,OS=latest" \
+          -scheme "YourScheme" \
+          -destination "platform=iOS Simulator,name=iPhone 14,OS=latest" \
           -resultBundlePath build/TestResults.xcresult \
           -derivedDataPath build \
           -enableCodeCoverage YES
