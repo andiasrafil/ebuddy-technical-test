@@ -1,60 +1,69 @@
-name: Code Coverage
+name: CI/CD Workflow
 
-on: [pull_request]
+on:
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  base_branch_cov:
-    runs-on: ubuntu-latest
+  build-and-test:
+    name: Build and Test
+    runs-on: macos-latest
+
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.base_ref }}
-      - name: Use Node.js v20.9.0
-        uses: actions/setup-node@v3
-        with:
-          node-version: v20.9.0
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
-      - name: Install dependencies
-        run: yarn
+    - name: Set up Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest
 
-      - name: Run test coverage
-        run: yarn coverage
+    - name: Install Dependencies
+      run: |
+        brew bundle
 
-      - name: Upload code coverage for ref branch
-        uses: actions/upload-artifact@v3
-        with:
-          name: ref-lcov.info
-          path: ./coverage/lcov.info
+    - name: Build and Run Tests
+      run: |
+        xcodebuild test \
+          -scheme "YourScheme" \
+          -destination "platform=iOS Simulator,name=iPhone 14,OS=latest" \
+          -enableCodeCoverage YES
+      env:
+        CI: true
 
-  checks:
-    runs-on: ubuntu-latest
-    needs: base_branch_cov
+    - name: Upload Coverage Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: |
+          build/reports/coverage
+          build/Debug-iphonesimulator/**/*.profdata
+
+  code-coverage:
+    name: Generate Code Coverage
+    needs: build-and-test
+    runs-on: macos-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js v20.9.0
-        uses: actions/setup-node@v3
-        with:
-          node-version: v20.9.0
+    - name: Download Coverage Report
+      uses: actions/download-artifact@v3
+      with:
+        name: coverage-report
+        path: ./coverage
 
-      - name: Download code coverage report from base branch
-        uses: actions/download-artifact@v3
-        with:
-          name: ref-lcov.info
+    - name: Generate Coverage Summary
+      run: |
+        xcrun xccov view ./coverage/Coverage.profdata --report --json > coverage-summary.json
 
-      - name: Install dependencies
-        run: yarn
+    - name: Upload Coverage Summary
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-summary
+        path: coverage-summary.json
 
-      - name: Run test coverage
-        run: yarn coverage
-
-      #  Compares two code coverage files and generates report as a comment
-      - name: Generate Code Coverage report
-        id: code-coverage
-        uses: barecheck/code-coverage-action@v1
-        with:
-          barecheck-github-app-token: ${{ secrets.BARECHECK_GITHUB_APP_TOKEN }}
-          lcov-file: "./coverage/lcov.info"
-          base-lcov-file: "./lcov.info"
-          minimum-ratio: 0 # Fails Github action once code coverage is decreasing
-          send-summary-comment: true
-          show-annotations: "warning" # Possible options warning|error
+    - name: Post Coverage Comment
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        path: coverage-summary.json
