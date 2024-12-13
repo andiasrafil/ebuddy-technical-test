@@ -5,7 +5,6 @@ on:
     branches:
       - main
 
-jobs:
   build-and-test:
     name: Build and Test
     runs-on: macos-latest
@@ -28,28 +27,22 @@ jobs:
         xcodebuild test \
           -scheme "ebuddy" \
           -destination "platform=iOS Simulator,name=iPhone 16,OS=latest" \
+          -resultBundlePath build/TestResults.xcresult \
           -derivedDataPath build \
           -enableCodeCoverage YES
       env:
         CI: true
 
-    - name: Debug Build Directory
-      run: |
-        echo "Checking build directory..."
-        find build -type f || echo "No files found"
-
     - name: Debug Test Results
       run: |
         echo "Checking test results..."
-        find build/Logs/Test -type f || echo "No test results found"
+        find build -name "*.xcresult" || echo "No .xcresult files found"
 
     - name: Upload Coverage Report
       uses: actions/upload-artifact@v3
       with:
         name: coverage-report
-        path: |
-          build/Logs/Test/*.xcresult
-          build/**/*.profdata
+        path: build/TestResults.xcresult
 
   code-coverage:
     name: Generate Code Coverage
@@ -65,17 +58,12 @@ jobs:
 
     - name: Extract Coverage from xcresult
       run: |
-        xcrun xcresulttool get --path ./coverage/*.xcresult --format json > xcresult.json
+        xcrun xcresulttool get --path ./coverage/TestResults.xcresult --format json > xcresult.json
         echo "Coverage data extracted."
 
     - name: Generate Coverage Summary
       run: |
-        xcrun xccov view ./coverage/build/Logs/Test/*.xcresult --report --json > coverage-summary.json
-
-    - name: Debug Coverage Summary
-      run: |
-        echo "Coverage Summary JSON:"
-        cat coverage-summary.json
+        xcrun xccov view ./coverage/TestResults.xcresult --report --json > coverage-summary.json
 
     - name: Upload Coverage Summary
       uses: actions/upload-artifact@v3
@@ -88,4 +76,3 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         path: coverage-summary.json
-
