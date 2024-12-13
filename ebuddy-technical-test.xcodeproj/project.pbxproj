@@ -34,6 +34,7 @@
 		A93402F32D0071CE005C1CA3 /* ebuddy-technical-test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ebuddy-technical-test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A93403042D0071D0005C1CA3 /* ebuddy-technical-testTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ebuddy-technical-testTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A934030E2D0071D0005C1CA3 /* ebuddy-technical-testUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ebuddy-technical-testUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A95160082D0BD73C000A04F5 /* ebuddy.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ebuddy.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -86,6 +87,7 @@
 		A93402EA2D0071CE005C1CA3 = {
 			isa = PBXGroup;
 			children = (
+				A95160082D0BD73C000A04F5 /* ebuddy.xctestplan */,
 				A93403072D0071D0005C1CA3 /* ebuddy-technical-testTests */,
 				A93403112D0071D0005C1CA3 /* ebuddy-technical-testUITests */,
 				A93403242D0079B8005C1CA3 /* Frameworks */,
