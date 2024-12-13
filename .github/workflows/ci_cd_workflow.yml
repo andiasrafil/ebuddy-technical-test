@@ -19,10 +19,6 @@ jobs:
       with:
         xcode-version: latest
 
-    - name: Install Dependencies
-      run: |
-        brew bundle
-
     - name: Build and Run Tests
       run: |
         xcodebuild test \
