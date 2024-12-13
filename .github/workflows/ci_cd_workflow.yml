@@ -32,7 +32,9 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: coverage-report
-        path: build/reports/coverage
+        path: |
+          build/reports/coverage
+          build/Debug-iphonesimulator/**/*.profdata
 
   code-coverage:
     name: Generate Code Coverage
