@@ -70,18 +70,35 @@ jobs:
       run: |
         xcrun xccov view ./coverage/*.xcresult --report --json > coverage-summary.json
 
-    - name: Debug Coverage Summary
+    - name: Create Readable Coverage Report
       run: |
-        echo "Coverage Summary JSON:"
-        cat coverage-summary.json
+        python3 <<EOF
+        import json
+        with open("coverage-summary.json", "r") as f:
+            data = json.load(f)
+        
+        # Extract relevant coverage info
+        targets = data.get("targets", [])
+        report_lines = []
+        report_lines.append("# Code Coverage Report")
+        report_lines.append("")
+        for target in targets:
+            name = target.get("name", "Unknown Target")
+            coverage = target.get("coverage", {}).get("lineCoverage", 0) * 100
+            report_lines.append(f"- **{name}**: {coverage:.2f}% line coverage")
+        
+        with open("coverage-report.md", "w") as out:
+            out.write("\n".join(report_lines))
+        EOF
 
-    - name: Upload Coverage Summary
+    - name: Upload Coverage Report
       uses: actions/upload-artifact@v3
       with:
-        name: coverage-summary
-        path: coverage-summary.json
+        name: coverage-report-md
+        path: coverage-report.md
 
-    - name: Post Coverage Comment
+    - name: Post Readable Coverage Comment
       uses: marocchino/sticky-pull-request-comment@v2
       with:
-        path: coverage-summary.json
+        path: coverage-report.md
+
