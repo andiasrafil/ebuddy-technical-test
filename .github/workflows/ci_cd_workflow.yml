@@ -28,22 +28,22 @@ jobs:
         xcodebuild test \
           -scheme "ebuddy" \
           -destination "platform=iOS Simulator,name=iPhone 16,OS=latest" \
-          -resultBundlePath build/TestResults.xcresult \
           -derivedDataPath build \
           -enableCodeCoverage YES
       env:
         CI: true
 
-    - name: Debug Test Results
+    - name: Debug Derived Data
       run: |
-        echo "Checking test results..."
+        echo "Checking DerivedData for results..."
         find build -name "*.xcresult" || echo "No .xcresult files found"
 
     - name: Upload Coverage Report
       uses: actions/upload-artifact@v3
       with:
         name: coverage-report
-        path: build/TestResults.xcresult
+        path: |
+          build/Logs/Test/*.xcresult
 
   code-coverage:
     name: Generate Code Coverage
@@ -59,12 +59,17 @@ jobs:
 
     - name: Extract Coverage from xcresult
       run: |
-        xcrun xcresulttool get --path ./coverage/TestResults.xcresult --format json > xcresult.json
+        xcrun xcresulttool get --path ./coverage/*.xcresult --format json > xcresult.json
         echo "Coverage data extracted."
 
     - name: Generate Coverage Summary
       run: |
-        xcrun xccov view ./coverage/TestResults.xcresult --report --json > coverage-summary.json
+        xcrun xccov view ./coverage/*.xcresult --report --json > coverage-summary.json
+
+    - name: Debug Coverage Summary
+      run: |
+        echo "Coverage Summary JSON:"
+        cat coverage-summary.json
 
     - name: Upload Coverage Summary
       uses: actions/upload-artifact@v3
