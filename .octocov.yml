@@ -6,10 +6,10 @@ coverage:
     path: assets/server-coverage.svg
 codeToTestRatio:
   code:
-    - 'server/**/*.py'
-    - '!server/test/**/test_*.py'
+    - 'ebuddy-techincal-test/**/*.swift'
+    - '!ebuddy-techincal-testTests/*.swift'
   test:
-    - 'server/test/**/test*.py'
+    - 'ebuddy-techincal-testTests/*.swift'
   badge:
     path: assets/server-ratio.svg
 diff:
