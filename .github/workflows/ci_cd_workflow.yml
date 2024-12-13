@@ -44,10 +44,10 @@ jobs:
         slather coverage \
           --input-format profdata \
           --scheme ebuddy \
-          --workspace ebuddy.xcworkspace \
+          --workspace ebuddy-technical-test.xcworkspace \
           --build-directory build \
           --output-directory build/coverage \
-          build/ebuddy.xcodeproj
+          build/ebuddy-technical-test.xcodeproj
         mv build/coverage/coverage.lcov lcov.info
 
     - name: Debug lcov Report
