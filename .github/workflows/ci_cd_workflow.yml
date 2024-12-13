@@ -1,4 +1,4 @@
-name: CI/CD Workflow
+name: CI/CD with Octocov
 
 on:
   pull_request:
@@ -25,7 +25,8 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        brew bundle
+        brew install lcov
+        gem install slather # To generate lcov report
 
     - name: Build and Run Tests
       run: |
@@ -37,68 +38,13 @@ jobs:
       env:
         CI: true
 
-    - name: Debug Derived Data
+    - name: Generate lcov Report
       run: |
-        echo "Checking DerivedData for results..."
-        find build -name "*.xcresult" || echo "No .xcresult files found"
+        slather coverage --input-format profdata --output-format lcov \
+          --scheme YourScheme --workspace YourWorkspace.xcworkspace --build-directory build build/YourProject.xcodeproj
+        mv build/lcov.info lcov.info
 
-    - name: Upload Coverage Report
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report
-        path: |
-          build/Logs/Test/*.xcresult
-
-  code-coverage:
-    name: Generate Code Coverage
-    needs: build-and-test
-    runs-on: macos-latest
-
-    steps:
-    - name: Download Coverage Report
-      uses: actions/download-artifact@v3
-      with:
-        name: coverage-report
-        path: ./coverage
-
-    - name: Extract Coverage from xcresult
+    - name: Debug lcov Report
       run: |
-        xcrun xcresulttool get --path ./coverage/*.xcresult --format json > xcresult.json
-        echo "Coverage data extracted."
-
-    - name: Generate Coverage Summary
-      run: |
-        xcrun xccov view ./coverage/*.xcresult --report --json > coverage-summary.json
-
-    - name: Create Readable Coverage Report
-      run: |
-        python3 <<EOF
-        import json
-        with open("coverage-summary.json", "r") as f:
-            data = json.load(f)
-        
-        # Extract relevant coverage info
-        targets = data.get("targets", [])
-        report_lines = []
-        report_lines.append("# Code Coverage Report")
-        report_lines.append("")
-        for target in targets:
-            name = target.get("name", "Unknown Target")
-            coverage = target.get("coverage", {}).get("lineCoverage", 0) * 100
-            report_lines.append(f"- **{name}**: {coverage:.2f}% line coverage")
-        
-        with open("coverage-report.md", "w") as out:
-            out.write("\n".join(report_lines))
-        EOF
-
-    - name: Upload Coverage Report
-      uses: actions/upload-artifact@v3
-      with:
-        name: coverage-report-md
-        path: coverage-report.md
-
-    - name: Post Readable Coverage Comment
-      uses: marocchino/sticky-pull-request-comment@v2
-      with:
-        path: coverage-report.md
-
+        echo "Generated lcov.info:"
+        cat lcov.info
