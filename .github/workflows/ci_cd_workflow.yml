@@ -27,7 +27,8 @@ jobs:
       run: |
         xcodebuild test \
           -scheme "ebuddy" \
-          -destination "platform=iOS Simulator,name=iPhone 16,OS=latest" \
+          -destination "platform=iOS Simulator,name=iPhone 15,OS=latest" \
+          -derivedDataPath build \
           -enableCodeCoverage YES
       env:
         CI: true
@@ -35,14 +36,14 @@ jobs:
     - name: Debug Build Directory
       run: |
         echo "Checking build directory..."
-        find build -type f
+        find build -type f || echo "No files found"
 
     - name: Upload Coverage Report
       uses: actions/upload-artifact@v3
       with:
         name: coverage-report
         path: |
-          **/*.profdata
+          build/Logs/Test/*.xcresult
           build/**/*.profdata
 
   code-coverage:
