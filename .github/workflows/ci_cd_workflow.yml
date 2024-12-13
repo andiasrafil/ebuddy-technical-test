@@ -1,0 +1,67 @@
+name: CI/CD Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Xcode
+      uses: maxim-lobanov/setup-xcode@v2
+      with:
+        xcode-version: latest
+
+    - name: Install Dependencies
+      run: |
+        brew bundle
+
+    - name: Build and Run Tests
+      run: |
+        xcodebuild test \
+          -scheme "ebuddy" \
+          -destination "platform=iOS Simulator,name=iPhone 14,OS=latest" \
+          -enableCodeCoverage YES
+      env:
+        CI: true
+
+    - name: Upload Coverage Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: build/reports/coverage
+
+  code-coverage:
+    name: Generate Code Coverage
+    needs: build-and-test
+    runs-on: macos-latest
+
+    steps:
+    - name: Download Coverage Report
+      uses: actions/download-artifact@v3
+      with:
+        name: coverage-report
+        path: ./coverage
+
+    - name: Generate Coverage Summary
+      run: |
+        xcrun xccov view ./coverage/Coverage.profdata --report --json > coverage-summary.json
+
+    - name: Upload Coverage Summary
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-summary
+        path: coverage-summary.json
+
+    - name: Post Coverage Comment
+      uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        path: coverage-summary.json
