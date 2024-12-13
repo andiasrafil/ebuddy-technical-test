@@ -65,7 +65,7 @@ jobs:
 
     - name: Extract Coverage from xcresult
       run: |
-        xcresulttool get --path ./coverage/*.xcresult --format json > xcresult.json
+        xcrun xcresulttool get --path ./coverage/*.xcresult --format json > xcresult.json
         echo "Coverage data extracted."
 
     - name: Generate Coverage Summary
