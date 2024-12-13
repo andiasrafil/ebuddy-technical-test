@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   build-and-test:
     name: Build and Test
@@ -80,5 +84,4 @@ jobs:
     - name: Post Coverage Comment
       uses: marocchino/sticky-pull-request-comment@v2
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
         path: coverage-summary.json
