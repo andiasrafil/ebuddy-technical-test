@@ -17,5 +17,10 @@ struct ebuddy_technical_testTests {
         #expect(true)
         // Write your test here and use APIs like `#expect(...)` to check expected conditions.
     }
+    
+    @Test func example3() async throws {
+        #expect(true)
+        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+    }
 
 }
