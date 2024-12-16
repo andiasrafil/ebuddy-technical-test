@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [2.0.0](https://github.com/andiasrafil/ebuddy-technical-test/compare/v1.0.1...v2.0.0) (2024-12-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* update user name
+
+### Features
+
+* update user name ([1841281](https://github.com/andiasrafil/ebuddy-technical-test/commit/1841281f35ab024846b6d3502782336f9704a9f9))
+
 ## [1.0.1](https://github.com/andiasrafil/ebuddy-technical-test/compare/v1.0.0...v1.0.1) (2024-12-16)
 
 
