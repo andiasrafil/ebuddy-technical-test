@@ -1,0 +1,28 @@
+{
+  "configurations" : [
+    {
+      "id" : "E282B100-4AE5-4855-9839-21F45FD39BCE",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:ebuddy-technical-test.xcodeproj",
+      "identifier" : "A93402F22D0071CE005C1CA3",
+      "name" : "ebuddy-technical-test"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:ebuddy-technical-test.xcodeproj",
+        "identifier" : "A93403032D0071D0005C1CA3",
+        "name" : "ebuddy-technical-testTests"
+      }
+    }
+  ],
+  "version" : 1
+}
