@@ -18,7 +18,7 @@ struct UserDetailView: View {
                 }
                     .scaledToFill()
                     .clipShape(Circle())
-                    .frame(width: 50, height: 50)
+                    .frame(width: 60, height: 60)
             } else {
                 ImageProfileView(viewModel: .init(onSuccess: { image in
                     let result = await self.viewModel.uploadPhoto(forUser: user.id ?? "", image: image)
