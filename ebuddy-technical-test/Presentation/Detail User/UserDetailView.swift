@@ -11,7 +11,7 @@ struct UserDetailView: View {
     @EnvironmentObject var appState: AppState
     var body: some View {
         VStack {
-            Text("current selected User: \(appState.currentSelectedUser?.email ?? "") andi asrafil")
+            Text("current selected User: \(appState.currentSelectedUser?.email ?? "") andi asrafil ganteng")
             if let imageUrl = user.image, !imageUrl.isEmpty {
                 AsyncImage(url: URL(string: imageUrl)!) {
                     $0.image?.resizable()
